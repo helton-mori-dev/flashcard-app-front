@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <nav>
       <RouterLink to="/">Home</RouterLink>
     </nav>
+  </header> -->
+
+  <section class="main flex content-center items-center">
     <RouterView />
-  </header>
+  </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main {
+  height: 100vh;
+}
+</style>
