@@ -1,6 +1,6 @@
 # flashcard-front-repo
 
-This template should help get you started developing with Vue 3 in Vite.
+Application built with node v22.0.0
 
 ## Recommended IDE Setup
 

@@ -54,11 +54,13 @@ const sendForm = (event: Event): void => {
         <h2 class="text-2xl font-bold mb-8">Sign up to DeckMaster</h2>
       </div>
       <span class="form__field w-full flex relative">
-        <span
-          v-if="errors.name"
-          class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
-          >{{ errors.name }}</span
-        >
+        <transition name="error">
+          <span
+            v-if="errors.name"
+            class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
+            >{{ errors.name }}</span
+          >
+        </transition>
         <input
           v-model="name"
           type="text"
@@ -68,11 +70,13 @@ const sendForm = (event: Event): void => {
       </span>
 
       <span class="form__field w-full flex relative">
-        <span
-          v-if="errors.email"
-          class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
-          >{{ errors.email }}</span
-        >
+        <transition name="error">
+          <span
+            v-if="errors.email"
+            class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
+            >{{ errors.email }}</span
+          >
+        </transition>
         <input
           v-model="email"
           type="text"
@@ -82,11 +86,13 @@ const sendForm = (event: Event): void => {
       </span>
 
       <span class="form__field w-full flex relative w-full h-12 mb-8 flex">
-        <span
-          v-if="errors.password"
-          class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
-          >{{ errors.password }}</span
-        >
+        <transition name="error">
+          <span
+            v-if="errors.password"
+            class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
+            >{{ errors.password }}</span
+          >
+        </transition>
         <input
           v-model="password"
           :type="isPasswordVisible ? 'text' : 'password'"
@@ -118,3 +124,14 @@ const sendForm = (event: Event): void => {
     </div>
   </section>
 </template>
+
+<style>
+.error-enter-active,
+.error-leave-active {
+  transition: 0.3s all ease;
+}
+.error-enter-from,
+.error-leave-to {
+  opacity: 0;
+}
+</style>
