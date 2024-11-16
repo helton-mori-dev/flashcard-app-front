@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .form__input {
+    @apply placeholder:text-sm;
+    @apply border-2;
+    @apply hover:border-black;
+    @apply w-full;
+    @apply rounded-md;
+    @apply h-12;
+    @apply pl-4;
+    @apply transition-all;
+  }
+
+  .form__error {
+    @apply absolute;
+    @apply top-[-24px];
+    @apply left-0;
+    @apply text-red-500;
+    @apply text-sm;
+  }
+
+  .form__field {
+    @apply w-full;
+    @apply flex;
+    @apply relative;
+  }
+}

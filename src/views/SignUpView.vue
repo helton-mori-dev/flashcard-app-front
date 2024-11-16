@@ -53,51 +53,29 @@ const sendForm = (event: Event): void => {
         <h1 class="text-base">Start your flashcard study</h1>
         <h2 class="text-2xl font-bold mb-8">Sign up to DeckMaster</h2>
       </div>
-      <span class="form__field w-full flex relative">
+      <span class="form__field">
         <transition name="error">
-          <span
-            v-if="errors.name"
-            class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
-            >{{ errors.name }}</span
-          >
+          <span v-if="errors.name" class="form__error">{{ errors.name }}</span>
         </transition>
-        <input
-          v-model="name"
-          type="text"
-          placeholder="Your name"
-          class="placeholder:text-sm border-2 hover:border-black w-full rounded-md h-12 pl-4 mb-8 transition-all"
-        />
+        <input v-model="name" type="text" placeholder="Your name" class="form__input mb-8" />
       </span>
 
-      <span class="form__field w-full flex relative">
+      <span class="form__field">
         <transition name="error">
-          <span
-            v-if="errors.email"
-            class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
-            >{{ errors.email }}</span
-          >
+          <span v-if="errors.email" class="form__error">{{ errors.email }}</span>
         </transition>
-        <input
-          v-model="email"
-          type="text"
-          placeholder="Email address"
-          class="placeholder:text-sm border-2 hover:border-black w-full rounded-md h-12 pl-4 mb-8 transition-all"
-        />
+        <input v-model="email" type="text" placeholder="Email address" class="form__input mb-8" />
       </span>
 
-      <span class="form__field w-full flex relative w-full h-12 mb-8 flex">
+      <span class="form__field w-full h-12 mb-8 flex">
         <transition name="error">
-          <span
-            v-if="errors.password"
-            class="form__error absolute top-[-24px] left-0 text-red-500 text-sm"
-            >{{ errors.password }}</span
-          >
+          <span v-if="errors.password" class="form__error">{{ errors.password }}</span>
         </transition>
         <input
           v-model="password"
           :type="isPasswordVisible ? 'text' : 'password'"
           placeholder="Password"
-          class="placeholder:text-sm border-2 hover:border-black w-full rounded-md h-12 pl-4 transition-all"
+          class="form__input"
         />
         <button
           type="button"
@@ -112,7 +90,7 @@ const sendForm = (event: Event): void => {
       </span>
       <button
         type="submit"
-        class="rounded-md w-full h-12 bg-blue-600 text-white hover:bg-blue-300 transition-all"
+        class="rounded-md w-full h-12 bg-defaultBlue hover:bg-lightBlue text-white transition-all"
         @click="sendForm"
       >
         Sign up

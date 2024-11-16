@@ -9,7 +9,7 @@ import { RouterView } from 'vue-router'
     </nav>
   </header> -->
 
-  <section class="main flex content-center items-center">
+  <section class="main flex content-center items-center font-monstserrat">
     <RouterView />
   </section>
 </template>
