@@ -2,36 +2,48 @@
 import { ref } from 'vue'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/16/solid'
 
+type FormErrors = {
+  name?: string
+  email?: string
+  password?: string
+}
+
 const isPasswordVisible = ref<boolean>(false)
 const name = ref<string>('')
 const email = ref<string>('')
 const password = ref<string>('')
-
-const errors = ref<{ name?: string; email?: string; password?: string }>({})
+const errors = ref<FormErrors>({})
 
 const togglePasswordVisibility = (): void => {
   isPasswordVisible.value = !isPasswordVisible.value
 }
 
-const validateForm = (): boolean => {
-  errors.value = {}
+const validateName = (): string | undefined => {
+  return !name.value.trim() ? 'Please enter your name' : undefined
+}
 
-  if (!name.value.trim()) {
-    errors.value.name = 'Please enter your email'
-  }
-
+const validateEmail = (): string | undefined => {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!email.value.trim()) {
-    errors.value.email = 'Please enter your email'
+    return 'Please enter your email'
   } else if (!emailPattern.test(email.value)) {
-    errors.value.email = 'Please enter a valid email address'
+    return 'Please enter a valid email address'
+  }
+  return undefined
+}
+
+const validatePassword = (): string | undefined => {
+  return password.value.length < 6 ? 'Your password must be at least 6 characters' : undefined
+}
+
+const validateForm = (): boolean => {
+  errors.value = {
+    name: validateName(),
+    email: validateEmail(),
+    password: validatePassword(),
   }
 
-  if (password.value.length < 6) {
-    errors.value.password = 'Your password must be at least 6 characters'
-  }
-
-  return Object.keys(errors.value).length === 0
+  return Object.keys(errors.value).every((key) => !errors.value[key as keyof FormErrors])
 }
 
 const sendForm = (event: Event): void => {
@@ -97,7 +109,7 @@ const sendForm = (event: Event): void => {
       </button>
     </form>
     <div class="login__sign-in fixed left-6 bottom-6">
-      Have as accound?
+      Have an accound?
       <RouterLink to="/" class="text-blue-600 hover:text-blue-400">Sign in</RouterLink>
     </div>
   </section>
