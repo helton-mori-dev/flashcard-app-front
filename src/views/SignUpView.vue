@@ -1,6 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/16/solid'
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+
+const GET_USERS = gql`
+  query GetAllUsers {
+    users {
+      id
+      name
+      email
+    }
+  }
+`
+const { result } = useQuery(GET_USERS)
+
+const users = computed(() => result.value?.users)
 
 type FormErrors = {
   name?: string
@@ -46,6 +61,8 @@ const validateForm = (): boolean => {
   return Object.keys(errors.value).every((key) => !errors.value[key as keyof FormErrors])
 }
 
+// const [createUser] = useMutation(CREATE_USER)
+
 const sendForm = (event: Event): void => {
   event.preventDefault()
   if (validateForm()) {
@@ -57,6 +74,13 @@ const sendForm = (event: Event): void => {
 </script>
 
 <template>
+  <div v-if="users">
+    <h1>Users</h1>
+    <ul v-if="users">
+      <li v-for="user in users" :key="user.id">{{ user.name }}</li>
+    </ul>
+    <p v-else>Loading...</p>
+  </div>
   <section
     class="login flex flex-col justify-center items-center container w-24rem max-w-sm mx-auto"
   >
