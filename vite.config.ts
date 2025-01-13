@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -15,5 +14,14 @@ export default defineConfig(({ mode }) => {
       },
     },
     base: mode === 'production' ? '/flashcard-app-front/' : '',
+    server: {
+      proxy: {
+        '/graphql': {
+          target: 'http://localhost:3000', // URL do servidor GraphQL
+          changeOrigin: true, // Modifica o cabeçalho Host para coincidir com o target
+          rewrite: (path) => path.replace(/^\/graphql/, '/graphql'), // Mantém o endpoint '/graphql'
+        },
+      },
+    },
   }
 })

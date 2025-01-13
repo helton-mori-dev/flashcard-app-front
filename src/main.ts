@@ -8,7 +8,8 @@ import './assets/tailwind.css'
 import { provideApolloClient } from '@vue/apollo-composable'
 
 const apolloClient = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: '/graphql',
+  credentials: 'include',
   cache: new InMemoryCache(),
 })
 

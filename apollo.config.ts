@@ -3,7 +3,8 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core
 import { provide } from 'vue'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: '/graphql',
+  credentials: 'include',
 })
 
 export const apolloClient = new ApolloClient({
