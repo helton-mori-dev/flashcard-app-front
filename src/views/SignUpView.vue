@@ -2,17 +2,8 @@
 import { ref, computed } from 'vue'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/16/solid'
 import { useQuery } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
+import GET_USERS from '@/graphql/getAllUsers.query.gql'
 
-const GET_USERS = gql`
-  query GetAllUsers {
-    users {
-      id
-      name
-      email
-    }
-  }
-`
 const { result } = useQuery(GET_USERS)
 
 const users = computed(() => result.value?.users)
@@ -77,7 +68,7 @@ const sendForm = (event: Event): void => {
   <div v-if="users">
     <h1>Users</h1>
     <ul v-if="users">
-      <li v-for="user in users" :key="user.id">{{ user.name }}</li>
+      <li v-for="user in users" :key="user.id">{{ user.name }} - {{ user.email }}</li>
     </ul>
     <p v-else>Loading...</p>
   </div>
