@@ -1,28 +1,24 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/16/solid'
-import { useQuery } from '@vue/apollo-composable'
+// import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/16/solid'
+import { useQuery, useMutation } from '@vue/apollo-composable'
 import GET_USERS from '@/graphql/getAllUsers.query.gql'
+import CREATE_USER from '@/graphql/createUser.mutation.gql'
+import type { FormErrors } from '@/types/errors'
 
 const { result } = useQuery(GET_USERS)
 
 const users = computed(() => result.value?.users)
 
-type FormErrors = {
-  name?: string
-  email?: string
-  password?: string
-}
-
-const isPasswordVisible = ref<boolean>(false)
+// const isPasswordVisible = ref<boolean>(false)
 const name = ref<string>('')
 const email = ref<string>('')
-const password = ref<string>('')
+// const password = ref<string>('')
 const errors = ref<FormErrors>({})
 
-const togglePasswordVisibility = (): void => {
-  isPasswordVisible.value = !isPasswordVisible.value
-}
+// const togglePasswordVisibility = (): void => {
+//   isPasswordVisible.value = !isPasswordVisible.value
+// }
 
 const validateName = (): string | undefined => {
   return !name.value.trim() ? 'Please enter your name' : undefined
@@ -38,21 +34,21 @@ const validateEmail = (): string | undefined => {
   return undefined
 }
 
-const validatePassword = (): string | undefined => {
-  return password.value.length < 6 ? 'Your password must be at least 6 characters' : undefined
-}
+// const validatePassword = (): string | undefined => {
+//   return password.value.length < 6 ? 'Your password must be at least 6 characters' : undefined
+// }
 
 const validateForm = (): boolean => {
   errors.value = {
     name: validateName(),
     email: validateEmail(),
-    password: validatePassword(),
+    // password: validatePassword(),
   }
 
   return Object.keys(errors.value).every((key) => !errors.value[key as keyof FormErrors])
 }
 
-// const [createUser] = useMutation(CREATE_USER)
+const { mutate: createUser, onDone, onError } = useMutation(CREATE_USER)
 
 const sendForm = (event: Event): void => {
   event.preventDefault()
@@ -60,6 +56,25 @@ const sendForm = (event: Event): void => {
     console.log('Successfully sent')
   } else {
     console.log('Validation failed')
+  }
+
+  if (validateForm()) {
+    const userData = {
+      name: name.value,
+      email: email.value,
+      // password: password.value,
+    }
+    createUser({ data: userData })
+
+    onDone((response) => {
+      console.log('User created', response.data.createUser)
+    })
+
+    onError((error) => {
+      console.log('Error, user not created', error)
+    })
+  } else {
+    console.log('Error validating form')
   }
 }
 </script>
@@ -94,7 +109,7 @@ const sendForm = (event: Event): void => {
         <input v-model="email" type="text" placeholder="Email address" class="form__input mb-8" />
       </span>
 
-      <span class="form__field w-full h-12 mb-8 flex">
+      <!-- <span class="form__field w-full h-12 mb-8 flex">
         <transition name="error">
           <span v-if="errors.password" class="form__error">{{ errors.password }}</span>
         </transition>
@@ -114,7 +129,7 @@ const sendForm = (event: Event): void => {
             class="w-5 h-5 text-gray-400 hover:text-gray-700"
           ></component>
         </button>
-      </span>
+      </span> -->
       <button
         type="submit"
         class="rounded-md w-full h-12 bg-defaultBlue hover:bg-lightBlue text-white transition-all"
